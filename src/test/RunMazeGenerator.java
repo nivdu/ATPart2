@@ -23,6 +23,5 @@ public class RunMazeGenerator {
         System.out.println(String.format("Goal Position: %s",
                 maze.getGoalPosition()));
 
-
     }
 }
