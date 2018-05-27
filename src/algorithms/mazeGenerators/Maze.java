@@ -177,10 +177,13 @@ public class Maze {
 
     private void number_2byte(int number, ArrayList<Byte> to_array_of_Bytes){
         int rows_2byte = number;
-        while (rows_2byte>0) {
-            if (rows_2byte <= 255) {
+        if (number == 0)
+            to_array_of_Bytes.add((byte) rows_2byte);
+        else
+            while (rows_2byte>0) {
+            if (rows_2byte < 255) {
                 to_array_of_Bytes.add((byte) rows_2byte);
-                rows_2byte = 0;
+                break;
             }
             else {
                 to_array_of_Bytes.add((byte) 255);
@@ -196,9 +199,6 @@ public class Maze {
             to_return[index] = (byte)b;
             index++;
         }
-//        for (i = 0; !(to_array_of_Bytes.isEmpty()) ; i++) {
-//            to_return[i] = to_array_of_Bytes.remove(0);
-//        }
         return maze_toByte_array(index, to_return);
     }
 
