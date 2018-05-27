@@ -1,4 +1,7 @@
 package algorithms.mazeGenerators;
+import java.sql.Array;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * class of maze which holds the board of the maze,
@@ -32,7 +35,11 @@ public class Maze {
         this.startPos = new Position(startP);
         this.finishPos = new Position(finishP);
     }
+/*
+    public Maze(byte[] MazeBybyte){
 
+    }
+*/
     /**
      * The method check if a given cell is legal
      * Legal cell - if the cell is in the maze bounds and it not a wall cell
@@ -145,5 +152,63 @@ public class Maze {
      */
     public int getColumns() {
         return columns;
+    }
+
+    /**
+     * build byte that represent the maze - "0" byte used like a buffer
+     * @return array of bytes represent of the maze
+     */
+    public byte[] toByteArray(){
+        ArrayList<Byte> to_array_of_Bytes = new ArrayList<>();
+        number_2byte(rows, to_array_of_Bytes);
+        to_array_of_Bytes.add((byte)0);
+        number_2byte(columns, to_array_of_Bytes);
+        to_array_of_Bytes.add((byte)0);
+        number_2byte(startPos.getRowIndex(), to_array_of_Bytes);
+        to_array_of_Bytes.add((byte)0);
+        number_2byte(startPos.getColumnIndex(), to_array_of_Bytes);
+        to_array_of_Bytes.add((byte)0);
+        number_2byte(finishPos.getRowIndex(), to_array_of_Bytes);
+        to_array_of_Bytes.add((byte)0);
+        number_2byte(finishPos.getColumnIndex(), to_array_of_Bytes);
+        to_array_of_Bytes.add((byte)0);
+        return arrayList_2array(to_array_of_Bytes);
+    }
+
+    private void number_2byte(int number, ArrayList<Byte> to_array_of_Bytes){
+        int rows_2byte = number;
+        while (rows_2byte>0) {
+            if (rows_2byte <= 255) {
+                to_array_of_Bytes.add((byte) rows_2byte);
+                rows_2byte = 0;
+            }
+            else {
+                to_array_of_Bytes.add((byte) 255);
+                rows_2byte = rows_2byte - 255;
+            }
+        }//while
+    }
+
+    private byte[] arrayList_2array(ArrayList<Byte> to_array_of_Bytes){
+        byte[] to_return = new byte[to_array_of_Bytes.size()+ rows*columns];
+        int index=0;
+        for (Byte b: to_array_of_Bytes){
+            to_return[index] = (byte)b;
+            index++;
+        }
+//        for (i = 0; !(to_array_of_Bytes.isEmpty()) ; i++) {
+//            to_return[i] = to_array_of_Bytes.remove(0);
+//        }
+        return maze_toByte_array(index, to_return);
+    }
+
+    private byte[] maze_toByte_array(int index, byte[] to_return){
+        for (int i=0 ; i < rows; i++){
+            for (int j = 0; j < columns; j++) {
+                to_return[index] = (byte)theMaze[i][j];
+                index++;
+            }
+        }
+        return to_return;
     }
 }
