@@ -53,6 +53,7 @@ public class MyCompressorOutputStream extends OutputStream {
 
 
     private void second_part_of_compression(ArrayList<Byte> compressArray, byte[] b, int start){
+
         int counter = 0;
         int current_byte = 1;
         for (int i = start; i <= b.length; i++) {
