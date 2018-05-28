@@ -7,13 +7,13 @@ import java.util.ArrayList;
 public class MyCompressorOutputStream extends OutputStream {
     private OutputStream out;
 
-    public MyCompressorOutputStream(OutputStream os) {
-        out=os;
+    public MyCompressorOutputStream(OutputStream out) {
+        this.out=out;
     }
 
     /**
      * this function does the compression of an array of byte.
-     * The compression starts with 0.
+     * The compression starts with 1.
      * @param b - the byte's array which will be compress.
      * @throws IOException - exception
      */
@@ -54,12 +54,12 @@ public class MyCompressorOutputStream extends OutputStream {
 
     private void second_part_of_compression(ArrayList<Byte> compressArray, byte[] b, int start){
         int counter = 0;
-        int current_byte = 0;
-        for (int i = start; i < b.length; i++) {
-            if(b[i] == current_byte){
+        int current_byte = 1;
+        for (int i = start; i <= b.length; i++) {
+            if(i <= b.length - 1 && b[i] == current_byte){
                 counter++;
             }
-            else{
+            else if(i == b.length || b[i] != current_byte){
                 if(counter > 255){
                     int amount = counter/255;
                     byte to_insert = (byte) 255;
@@ -76,7 +76,7 @@ public class MyCompressorOutputStream extends OutputStream {
                     compressArray.add(to_insert);
                 }
                 current_byte = Change_current_byte(current_byte);
-                counter = 0;
+                counter = 1;
             }
         }
     }
