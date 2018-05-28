@@ -27,19 +27,66 @@ public class Maze {
         if (maze.length <= 0 || maze[0].length <= 0 || !checkLegalPos(startP) || !checkLegalPos(finishP))
             return;
         theMaze = new int[rows][columns];
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < columns ; j++) {
-                theMaze[i][j]=maze[i][j];
-            }
-        }
+        copy_maze(maze);
         this.startPos = new Position(startP);
         this.finishPos = new Position(finishP);
     }
-/*
-    public Maze(byte[] MazeBybyte){
 
+    private void copy_maze(int[][] maze_2copy){
+        for (int i = 0; i < rows; i++)
+            for (int j = 0; j < columns ; j++)
+                theMaze[i][j]=maze_2copy[i][j];
     }
-*/
+
+    public Maze(byte[] mazeBybyte){
+        int last_touch_index = first_part_of_compression(mazeBybyte);
+        if (rows <= 0 || rows <= 0 || !checkLegalPos(startPos) || !checkLegalPos(finishPos))
+            return;
+        theMaze = new int[rows][columns];
+        init_maze_from_byteArr(mazeBybyte, last_touch_index);
+    }
+
+    private void init_maze_from_byteArr(byte[] mazeBybyte, int index){
+        for (int i = 0; i < rows && i<mazeBybyte.length ; i++) {
+            for (int j = 0; j < columns && j<mazeBybyte.length ; j++) {
+                theMaze[i][j] = mazeBybyte[index];
+                index++;
+            }
+        }
+    }
+
+    private int first_part_of_compression(byte[] b){
+        int last_comma = 0;
+        int location_in_b = 0;
+        int i;
+        int[] temp = new int[6];
+        for (i = 0; i < b.length; i++) {
+            if (location_in_b < 6) {
+                if (b[i] == 0) {
+                    if (b[i - 1] != 0) {
+                        location_in_b = location_in_b + 1;
+                        last_comma = i;
+                    } else {
+                        if (last_comma != i - 1) {
+                            location_in_b = location_in_b + 1;
+                            last_comma = i;
+                        }
+                    }
+                }
+                if (location_in_b < 6)
+                    temp[location_in_b] += b[i];
+            }
+            else {
+                rows = temp[0];
+                columns = temp[1];
+                startPos = new Position(temp[2],temp[3]);
+                finishPos = new Position(temp[4],temp[5]);
+                break;
+            }
+        }
+        return i;
+    }
+
     /**
      * The method check if a given cell is legal
      * Legal cell - if the cell is in the maze bounds and it not a wall cell
@@ -181,15 +228,15 @@ public class Maze {
             to_array_of_Bytes.add((byte) rows_2byte);
         else
             while (rows_2byte>0) {
-            if (rows_2byte < 255) {
-                to_array_of_Bytes.add((byte) rows_2byte);
-                break;
-            }
-            else {
-                to_array_of_Bytes.add((byte) 255);
-                rows_2byte = rows_2byte - 255;
-            }
-        }//while
+                if (rows_2byte < 255) {
+                    to_array_of_Bytes.add((byte) rows_2byte);
+                    break;
+                }
+                else {
+                    to_array_of_Bytes.add((byte) 255);
+                    rows_2byte = rows_2byte - 255;
+                }
+            }//while
     }
 
     private byte[] arrayList_2array(ArrayList<Byte> to_array_of_Bytes){

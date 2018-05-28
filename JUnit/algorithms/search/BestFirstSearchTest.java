@@ -1,4 +1,6 @@
+/*
 package algorithms.search;
+
 
 import org.junit.jupiter.api.Test;
 
@@ -14,3 +16,4 @@ class BestFirstSearchTest {
 
 
 }
+ */

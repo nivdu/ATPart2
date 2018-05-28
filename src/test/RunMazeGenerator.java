@@ -14,6 +14,20 @@ public class RunMazeGenerator {
         Maze maze = mazeGenerator.generate(50/*rows*/, 10/*columns*/);
 // prints the maze
         maze.print();
+        //check maze class 2 methods: toByteArray and constructor maze from byte array
+        System.out.println("```````````````````````````````````````````");
+        maze.toByteArray();
+        Maze check_byteconstructor = new Maze(maze.toByteArray());
+        check_byteconstructor.print();
+        for (int i = 0; i <maze.getRows() ; i++) {
+            for (int j = 0; j <maze.getColumns() ; j++) {
+                if(maze.getVal(i,j)!=check_byteconstructor.getVal(i,j))
+                    System.out.println("NO!!");
+            }
+        }
+        System.out.println("good");
+        //finish check toByteArray and constructor maze from byte array
+
 // get the maze entrance
         Position startPosition = maze.getStartPosition();
 // print the position
