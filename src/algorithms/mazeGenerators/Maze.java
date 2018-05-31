@@ -47,8 +47,8 @@ public class Maze {
     }
 
     private void init_maze_from_byteArr(byte[] mazeBybyte, int index){
-        for (int i = 0; i < rows && i<mazeBybyte.length ; i++) {
-            for (int j = 0; j < columns && j<mazeBybyte.length ; j++) {
+        for (int i = 0; i < rows && index<mazeBybyte.length ; i++) {
+            for (int j = 0; j < columns && index<mazeBybyte.length ; j++) {
                 theMaze[i][j] = mazeBybyte[index];
                 index++;
             }
@@ -77,10 +77,10 @@ public class Maze {
                     temp[location_in_b] += b[i];
             }
             else {
-                rows = temp[0];
-                columns = temp[1];
-                startPos = new Position(temp[2],temp[3]);
-                finishPos = new Position(temp[4],temp[5]);
+                rows = temp[0] & 0xFF;
+                columns = temp[1] & 0xFF;
+                startPos = new Position(temp[2]& 0xFF,temp[3]& 0xFF);
+                finishPos = new Position(temp[4]& 0xFF,temp[5]& 0xFF);
                 break;
             }
         }
@@ -252,8 +252,7 @@ public class Maze {
     private byte[] maze_toByte_array(int index, byte[] to_return){
         for (int i=0 ; i < rows; i++){
             for (int j = 0; j < columns; j++) {
-                to_return[index] = (byte)theMaze[i][j];
-
+                to_return[index] = (byte)(theMaze[i][j]);
                 index++;
             }
         }
