@@ -2,7 +2,6 @@ package IO;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 
 public class MyDecompressorInputStream extends InputStream {
     private InputStream in;
@@ -30,7 +29,7 @@ public class MyDecompressorInputStream extends InputStream {
         int location_in_compressArray = 0;
         int i;
         for (i = 0; i < compressArray.length; i++) {
-            if (location_in_compressArray< 6) {
+            if (location_in_compressArray < 6) {
                 if (compressArray[i] == 0) {
                     if (compressArray[i - 1] != 0) {
                         location_in_compressArray++;
@@ -44,7 +43,8 @@ public class MyDecompressorInputStream extends InputStream {
                 }
                 b[i]=compressArray[i];
             }
-            else break;
+            else if (location_in_compressArray >= 6)
+                break;
         }
         return i;
     }
@@ -53,8 +53,8 @@ public class MyDecompressorInputStream extends InputStream {
         int counter;
         byte current_byte = 1;
         int index_of_b_the_newDecompress=start;
-        for (int i = start; i <= compressArray.length; i++) {
-            counter = compressArray[i];
+        for (int i = start; i < compressArray.length; i++) {
+            counter = compressArray[i] & 0xFF;
             while (counter > 0) {
                 b[index_of_b_the_newDecompress] = current_byte;
                 index_of_b_the_newDecompress++;

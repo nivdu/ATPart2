@@ -32,7 +32,7 @@ public class MyMazeGenerator extends AMazeGenerator {
         this.rowsL = rows;
         this.columnsL = columns;
         this.maze =new int[rowsL][columnsL];
-        this.arrayofwalls = new ArrayList<Position>();
+        this.arrayofwalls = new ArrayList<>();
         //init the maze with 2
         buildTheMaze();
         //init the start cell of the maze.
@@ -55,13 +55,13 @@ public class MyMazeGenerator extends AMazeGenerator {
      */
     private void findNeighborWalls(int i, int j) {
         if (i < rowsL - 1 && maze[i + 1][j] == 2)
-            arrayofwalls.add(new Position(i + 1, j+0));
+            arrayofwalls.add(new Position(i + 1, j));
         if (i > 0 && maze[i - 1][j] == 2)
-            arrayofwalls.add(new Position(i - 1, j+0));
+            arrayofwalls.add(new Position(i - 1, j));
         if (j < columnsL - 1 && maze[i][j + 1] == 2)
-            arrayofwalls.add(new Position(i+0, j + 1));
+            arrayofwalls.add(new Position(i, j + 1));
         if (j > 0 && maze[i][j - 1] == 2)
-            arrayofwalls.add(new Position(i+0, j - 1));
+            arrayofwalls.add(new Position(i, j - 1));
     }
 
     /**
@@ -136,18 +136,6 @@ public class MyMazeGenerator extends AMazeGenerator {
         }
     }
 
-    /**
-     * The method check if a given cell is legal
-     * Legal cell - if the cell is in the maze bounds and it not a wall cell
-     * @param row - the row index to check
-     * @param col - the col index to check
-     * @return true if the cell is legal (the cell is in the maze bounds and it not a wall cell). else false.
-     */
-    private boolean checkIfLegalPos(int row, int col){
-        if (row<0 || col<0 || col>columnsL || row>rowsL)
-            return false;
-        return true;
-    }
 
     /**
      * If at the end of the maze construction there are cells of value 2, the method will change their value to 1.
