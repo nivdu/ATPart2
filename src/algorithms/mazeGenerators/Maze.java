@@ -1,7 +1,6 @@
 package algorithms.mazeGenerators;
-import java.sql.Array;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
 
 /**
  * class of maze which holds the board of the maze,
@@ -34,13 +33,12 @@ public class Maze {
 
     private void copy_maze(int[][] maze_2copy){
         for (int i = 0; i < rows; i++)
-            for (int j = 0; j < columns ; j++)
-                theMaze[i][j]=maze_2copy[i][j];
+            theMaze[i] = Arrays.copyOf(maze_2copy[i] ,maze_2copy[i].length);
     }
 
     public Maze(byte[] mazeBybyte){
         int last_touch_index = first_part_of_compression(mazeBybyte);
-        if (rows <= 0 || rows <= 0 || !checkLegalPos(startPos) || !checkLegalPos(finishPos))
+        if (rows <= 0 || columns <= 0 || !checkLegalPos(startPos) || !checkLegalPos(finishPos))
             return;
         theMaze = new int[rows][columns];
         init_maze_from_byteArr(mazeBybyte, last_touch_index);
@@ -94,9 +92,7 @@ public class Maze {
      * @return true if the cell is legal (the cell is in the maze bounds and it not a wall cell). else false.
      */
     private boolean checkLegalPos(Position pos){
-        if ( pos!=null && pos.getColumnIndex()>=0 && pos.getColumnIndex()<= columns && pos.getRowIndex()>=0 && pos.getRowIndex()<=rows)
-            return true;
-        return false;
+        return ( pos!=null && pos.getColumnIndex()>=0 && pos.getColumnIndex() < columns && pos.getRowIndex()>=0 && pos.getRowIndex()<rows);
     }
 
     /**
@@ -107,33 +103,7 @@ public class Maze {
      * @return true if the cell is legal (the cell is in the maze bounds and it not a wall cell). else false.
      */
     private boolean checkLegalPos(int row, int column){
-        if ( column>=0 && column<columns && row>=0 && row<rows)
-            return true;
-        return false;
-    }
-
-    /**
-     * Setter for the start Position of the Maze.
-     * @param startRow - the row index
-     * @param startCol - the column index
-     */
-    public void setStartPos(int startRow, int startCol) {
-        if (checkLegalPos(startRow,startCol)) {
-            this.startPos.setRow(startRow);
-            this.startPos.setCol(startCol);
-        }
-    }
-
-    /**
-     * Setter for the Finish Position of the Maze.
-     * @param finishRow - the row index
-     * @param finishCol - the column index
-     */
-    public void setFinishPos(int finishRow, int finishCol) {
-        if (checkLegalPos(finishRow,finishCol)){
-            this.finishPos.setRow(finishRow);
-            this.finishPos.setCol(finishCol);
-        }
+        return ( column>=0 && column<columns && row>=0 && row<rows);
     }
 
     /**
@@ -243,7 +213,7 @@ public class Maze {
         byte[] to_return = new byte[to_array_of_Bytes.size()+ rows*columns];
         int index=0;
         for (Byte b: to_array_of_Bytes){
-            to_return[index] = (byte)b;
+            to_return[index] = b;
             index++;
         }
         return maze_toByte_array(index, to_return);

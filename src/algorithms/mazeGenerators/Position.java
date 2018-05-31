@@ -49,20 +49,4 @@ public class Position {
     public int getColumnIndex() {
         return col;
     }
-
-    /**
-     * Setter for the row of the position.
-     * @param row - the row index to set to a position
-     */
-    public void setRow(int row) {
-        this.row = row;
-    }
-
-    /**
-     * Setter for the column of the position.
-     * @param col- the column index to set to a position
-     */
-    public void setCol(int col) {
-        this.col = col;
-    }
 }
