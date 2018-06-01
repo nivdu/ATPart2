@@ -42,7 +42,7 @@ public class Server {
             }
             server.close();
         } catch (IOException e) {//todo exception
-
+            e.printStackTrace();
 //            LOG.error("IOException", e);
         }
     }
@@ -56,6 +56,7 @@ public class Server {
             clientSocket.getOutputStream().close();
             clientSocket.close();
         } catch (IOException e) {//todo exception
+            e.printStackTrace();
 //            LOG.error("IOException", e);
         }
     }
