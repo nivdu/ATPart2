@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
 
 
 public class Server {
@@ -13,15 +15,17 @@ public class Server {
     private int listeningInterval;
     private IServerStrategy serverStrategy;
     private volatile boolean stop;
+    private ThreadPoolExecutor threadPoolExecutor;
 
     public Server(int port, int listeningInterval, IServerStrategy serverStrategy) {
+        threadPoolExecutor = (ThreadPoolExecutor) Executors.newCachedThreadPool();
+        threadPoolExecutor.setCorePoolSize(Runtime.getRuntime().availableProcessors() * 2);
         this.port = port;
         this.listeningInterval = listeningInterval;
         this.serverStrategy = serverStrategy;
     }
 
-    public void start() {new Thread(() -> runServer()).start();}
-
+    public void start() {threadPoolExecutor.submit(() -> runServer());}
     private void runServer() {
         try {
             ServerSocket server = new ServerSocket(port);
@@ -31,7 +35,7 @@ public class Server {
                 try {
                     Socket clientSocket = server.accept(); // blocking call
                     System.out.println(String.format("Client excepted: %s", clientSocket.toString()));
-                    new Thread(() -> handleClient(clientSocket)).start();
+                    threadPoolExecutor.submit(() -> handleClient(clientSocket));
                 } catch (SocketTimeoutException e) {
                     System.out.println("SocketTimeout - No clients pending!");
                 }
