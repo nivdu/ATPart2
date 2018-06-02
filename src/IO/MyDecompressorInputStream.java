@@ -55,7 +55,7 @@ public class MyDecompressorInputStream extends InputStream {
         int index_of_b_the_newDecompress=start;
         for (int i = start; i < compressArray.length; i++) {
             counter = compressArray[i] & 0xFF;
-            while (counter > 0) {
+            while (counter > 0 && index_of_b_the_newDecompress < b.length) {
                 b[index_of_b_the_newDecompress] = current_byte;
                 index_of_b_the_newDecompress++;
                 counter--;

@@ -1,9 +1,11 @@
 package algorithms.mazeGenerators;
 
+import java.io.Serializable;
+
 /**
  * class of position that holds the value of the row and the column of the position.
  */
-public class Position {
+public class Position implements Serializable {
     private int row,col;
 
     /**
