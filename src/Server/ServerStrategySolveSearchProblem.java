@@ -32,7 +32,7 @@ public class ServerStrategySolveSearchProblem implements IServerStrategy {
             if (directoryListing != null) {
                 Boolean found_match= false;
                 for (File child : directoryListing) {
-                    if(child.getName().equals(String.valueOf(this_hashCode))){//todo equals or '==' compare the Strings
+                    if(child.getName().equals(String.valueOf(this_hashCode) +"tmp")){//todo equals or '==' compare the Strings
                         //check todo
                         FileInputStream f = new FileInputStream(child);
                         ObjectInputStream o = new ObjectInputStream(f);
@@ -49,7 +49,7 @@ public class ServerStrategySolveSearchProblem implements IServerStrategy {
                     FileOutputStream f = new FileOutputStream(new File(tempDirectoryPath + "\\" + this_hashCode));
                     ObjectOutputStream o = new ObjectOutputStream(f);
                     // Write objects to file
-                    o.writeObject(this_maze);
+                    o.writeObject(solution);// todo was maze changed to solution.
                     o.close();
                     f.close();
                 }
@@ -60,6 +60,7 @@ public class ServerStrategySolveSearchProblem implements IServerStrategy {
                 // directories.
             }
             toClient.writeObject(solution);//todo maybe check if solution is null
+            toClient.flush();
         } catch (IOException|ClassNotFoundException e){
             e.printStackTrace();
         }

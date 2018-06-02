@@ -55,8 +55,8 @@ public class Server {
             System.out.println("Client excepted!");
             System.out.println(String.format("Handling client with socket: %s", clientSocket.toString()));
             serverStrategy.serverStrategy(clientSocket.getInputStream(), clientSocket.getOutputStream());
-            clientSocket.getInputStream().close();
-            clientSocket.getOutputStream().close();
+//            clientSocket.getInputStream().close();
+//            clientSocket.getOutputStream().close();
             clientSocket.close();
         } catch (IOException e) {//todo exception
             e.printStackTrace();
