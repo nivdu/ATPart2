@@ -102,8 +102,7 @@ public class RunCommunicateWithServers {
     }
     private static void CommunicateWithServer_StringReverser() {
         try {
-            Client client = new Client(InetAddress.getLocalHost(), 5402, new
-                    IClientStrategy() {
+            Client client = new Client(InetAddress.getLocalHost(), 5402, new IClientStrategy() {
                         @Override
                         public void clientStrategy(InputStream inFromServer,
                                                    OutputStream outToServer) {

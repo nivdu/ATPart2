@@ -4,12 +4,13 @@ package algorithms.search;
  * and creates the path of the described solution.
  */
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Solution {
-    ArrayList<AState> SolutionPath;
-    AState start;
-    AState end;
+public class Solution implements Serializable {
+    private ArrayList<AState> SolutionPath;
+    private AState start;
+    private AState end;
 
     /**
      * constructor of problem's solution that gets the start state and the goal state

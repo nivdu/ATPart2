@@ -1,11 +1,13 @@
 package algorithms.search;
 
+import java.io.Serializable;
+
 /**
  * an abstract class of state which holds a string of the state,
  * a state which the current state came from
  * and the cost of the state.
  */
-public abstract class AState {
+public abstract class AState implements Serializable {
     private String stringState;
     private AState fatherState;
     private int cost;

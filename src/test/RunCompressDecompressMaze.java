@@ -14,8 +14,7 @@ public class RunCompressDecompressMaze {
         Maze maze = mazeGenerator.generate(100, 150); //Generate new maze
         try {
 // save maze to a file
-            OutputStream out = new MyCompressorOutputStream(new
-                    FileOutputStream(mazeFileName));
+            OutputStream out = new MyCompressorOutputStream(new FileOutputStream(mazeFileName));
             out.write(maze.toByteArray());
             out.flush();
             out.close();

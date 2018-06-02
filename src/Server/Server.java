@@ -25,7 +25,10 @@ public class Server {
         this.serverStrategy = serverStrategy;
     }
 
-    public void start() {threadPoolExecutor.execute(() -> runServer());}
+    public void start() {
+        new Thread(() -> { runServer(); }).start();
+    }
+
     private void runServer() {
         try {
             ServerSocket server = new ServerSocket(port);

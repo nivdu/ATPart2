@@ -8,18 +8,18 @@ import algorithms.search.Solution;
 import java.io.*;
 import java.nio.file.*;
 import java.util.Arrays;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class ServerStrategySolveSearchProblem implements IServerStrategy {
 
     @Override
-    public void serverStrategy(InputStream inFromClient, OutputStream outToClient) {
+    public synchronized void serverStrategy(InputStream inFromClient, OutputStream outToClient) {
         DepthFirstSearch dfs = new DepthFirstSearch();
         SearchableMaze domain;
 
         try {
             ObjectInputStream fromClient = new ObjectInputStream(inFromClient);
             ObjectOutputStream toClient = new ObjectOutputStream(outToClient);
-            Thread.sleep(5000);
             toClient.flush();
             String tempDirectoryPath = System.getProperty("java.io.tmpdir");
             Maze this_maze = (Maze) fromClient.readObject();
@@ -32,7 +32,7 @@ public class ServerStrategySolveSearchProblem implements IServerStrategy {
             if (directoryListing != null) {
                 Boolean found_match= false;
                 for (File child : directoryListing) {
-                    if( child.getName() == String.valueOf(this_hashCode)){
+                    if(child.getName().equals(String.valueOf(this_hashCode))){//todo equals or '==' compare the Strings
                         //check todo
                         FileInputStream f = new FileInputStream(child);
                         ObjectInputStream o = new ObjectInputStream(f);
@@ -60,11 +60,7 @@ public class ServerStrategySolveSearchProblem implements IServerStrategy {
                 // directories.
             }
             toClient.writeObject(solution);//todo maybe check if solution is null
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
+        } catch (IOException|ClassNotFoundException e){
             e.printStackTrace();
         }
     }

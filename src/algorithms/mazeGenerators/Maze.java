@@ -1,16 +1,20 @@
 package algorithms.mazeGenerators;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
+
 
 /**
  * class of maze which holds the board of the maze,
  * the start point's position and the goal start's position.
  *
  */
-public class Maze {
+public class Maze implements Serializable {
     private int[][] theMaze;
     private int rows,columns;
     private Position startPos,finishPos;
+
+
 
     /**
      * Constructor
