@@ -15,15 +15,19 @@ public class MyCompressorOutputStream extends OutputStream {
      * this function does the compression of an array of byte.
      * The compression starts with 1.
      * @param b - the byte's array which will be compress.
-     * @throws IOException - exception
      */
     @Override
-    public void write(byte[] b) throws IOException {
-        ArrayList<Byte> compressArray = new ArrayList<>();
-        int i = first_part_of_compression(compressArray,b);
-        second_part_of_compression(compressArray,b,i);
-        byte[] to_return = arrayList_2array(compressArray);
-        out.write(to_return);
+    public void write(byte[] b) {
+        try {
+            ArrayList<Byte> compressArray = new ArrayList<>();
+            int i = first_part_of_compression(compressArray, b);
+            second_part_of_compression(compressArray, b, i);
+            byte[] to_return = arrayList_2array(compressArray);
+            out.write(to_return);
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -103,7 +107,7 @@ public class MyCompressorOutputStream extends OutputStream {
     }
 
     @Override
-    public void write(int b) throws IOException {
+    public void write(int b){
 
     }
 }
