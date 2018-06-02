@@ -32,12 +32,15 @@ public class ServerStrategySolveSearchProblem implements IServerStrategy {
             if (directoryListing != null) {
                 Boolean found_match= false;
                 for (File child : directoryListing) {
-                    if(child.getName().equals(String.valueOf(this_hashCode) +"tmp")){//todo equals or '==' compare the Strings
+                    if(child.getName().equals(String.valueOf(this_hashCode)+"tmp")){//todo equals or '==' compare the Strings
                         //check todo
                         FileInputStream f = new FileInputStream(child);
                         ObjectInputStream o = new ObjectInputStream(f);
                         found_match = true;
                         solution = (Solution) o.readObject();
+                        if (!(solution.getStart().getStringState().equals(this_maze.getStartPosition().toString())&&solution.getEnd().getStringState().equals(this_maze.getGoalPosition().toString()))){
+                            found_match = false;
+                        }
                         o.close();
                         f.close();
                         break;
@@ -53,12 +56,14 @@ public class ServerStrategySolveSearchProblem implements IServerStrategy {
                     o.close();
                     f.close();
                 }
-            } else {//todo else maybe do try and catch
-                // Handle the case where dir is not really a directory.
-                // Checking dir.isDirectory() above would not be sufficient
-                // to avoid race conditions with another process that deletes
-                // directories.
             }
+//            else {//todo else maybe do try and catch
+//                // Handle the case where dir is not really a directory.
+//                // Checking dir.isDirectory() above would not be sufficient
+//                // to avoid race conditions with another process that deletes
+//                // directories.
+//
+//            }
             toClient.writeObject(solution);//todo maybe check if solution is null
             toClient.flush();
         } catch (IOException|ClassNotFoundException e){

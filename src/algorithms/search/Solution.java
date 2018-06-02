@@ -23,6 +23,14 @@ public class Solution implements Serializable {
         end=iEnd;//to-do deep?
     }
 
+    public AState getStart() {
+        return start;
+    }
+
+    public AState getEnd() {
+        return end;
+    }
+
     /**
      * the function returns the path of the problem's solution from the start state to the goal state
      * @return array list of the path of the problem's solution from the start state to the goal state

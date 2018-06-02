@@ -12,10 +12,15 @@ public class MyDecompressorInputStream extends InputStream {
     }
 
     @Override
-    public int read(byte[] b) throws IOException {
+    public int read(byte[] b) {
         //return super.read(b);
-        byte[] compress_array = in.readAllBytes();
-        decompress_the_array(b,compress_array);
+        try {
+            byte[] compress_array = in.readAllBytes();
+            decompress_the_array(b,compress_array);
+        }
+        catch(IOException e){
+            e.printStackTrace();
+        }
         return b.length;
     }
 
@@ -76,7 +81,7 @@ public class MyDecompressorInputStream extends InputStream {
     }
 
     @Override
-    public int read() throws IOException {
+    public int read() {
         return 0;
     }
 }
