@@ -25,7 +25,7 @@ public class Server {
         this.serverStrategy = serverStrategy;
     }
 
-    public void start() {threadPoolExecutor.submit(() -> runServer());}
+    public void start() {threadPoolExecutor.execute(() -> runServer());}
     private void runServer() {
         try {
             ServerSocket server = new ServerSocket(port);
@@ -35,7 +35,7 @@ public class Server {
                 try {
                     Socket clientSocket = server.accept(); // blocking call
                     System.out.println(String.format("Client excepted: %s", clientSocket.toString()));
-                    threadPoolExecutor.submit(() -> handleClient(clientSocket));
+                    threadPoolExecutor.execute(() -> handleClient(clientSocket));
                 } catch (SocketTimeoutException e) {
                     System.out.println("SocketTimeout - No clients pending!");
                 }

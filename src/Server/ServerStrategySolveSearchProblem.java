@@ -53,13 +53,13 @@ public class ServerStrategySolveSearchProblem implements IServerStrategy {
                     o.close();
                     f.close();
                 }
-            } else {//todo else maby do try and catch
+            } else {//todo else maybe do try and catch
                 // Handle the case where dir is not really a directory.
                 // Checking dir.isDirectory() above would not be sufficient
                 // to avoid race conditions with another process that deletes
                 // directories.
             }
-            toClient.writeObject(solution);//todo maby check if solution is null
+            toClient.writeObject(solution);//todo maybe check if solution is null
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
