@@ -1,6 +1,5 @@
 package Server;
 
-//import Server.IServerStrategy;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -8,6 +7,7 @@ import java.net.Socket;
 import java.net.SocketTimeoutException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
+
 
 
 public class Server {
@@ -45,7 +45,7 @@ public class Server {
             threadPoolExecutor.shutdown();
             server.close();
         } catch (IOException e) {//todo exception
-            e.printStackTrace();
+            //e.printStackTrace();
 //            LOG.error("IOException", e);
         }
     }
@@ -59,7 +59,9 @@ public class Server {
 //            clientSocket.getOutputStream().close();
             clientSocket.close();
         } catch (IOException e) {//todo exception
-            e.printStackTrace();
+
+            //e.printStackTrace();
+//            LOG.error("IOException", e);
         }
     }
 
@@ -67,4 +69,7 @@ public class Server {
         System.out.println("Stopping server..");
         stop = true;
     }
+
+
 }
+

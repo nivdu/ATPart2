@@ -6,9 +6,8 @@ import algorithms.search.SearchableMaze;
 import algorithms.search.Solution;
 
 import java.io.*;
-import java.nio.file.*;
 import java.util.Arrays;
-import java.util.concurrent.ConcurrentHashMap;
+
 
 public class ServerStrategySolveSearchProblem implements IServerStrategy {
 
