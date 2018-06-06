@@ -1,11 +1,9 @@
 package Server;
 
 import algorithms.mazeGenerators.Maze;
-import algorithms.search.DepthFirstSearch;
-import algorithms.search.SearchableMaze;
-import algorithms.search.Solution;
-
+import algorithms.search.*;
 import java.io.*;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 
 
@@ -13,9 +11,17 @@ public class ServerStrategySolveSearchProblem implements IServerStrategy {
 
     @Override
     public synchronized void serverStrategy(InputStream inFromClient, OutputStream outToClient) {
-        DepthFirstSearch dfs = new DepthFirstSearch();
-        SearchableMaze domain;
+        ASearchingAlgorithm SearchAlgorithm=null;
+        try {
+            String sn = "algorithms.search." + Server.Configurations.getSearchingAlgorithm();
+            SearchAlgorithm = (ASearchingAlgorithm)Class.forName(sn).getConstructor().newInstance();
+        } catch (ClassNotFoundException | InstantiationException | NoSuchMethodException | InvocationTargetException | IllegalAccessException e){
+            e.printStackTrace();
+        }
+        if (SearchAlgorithm==null)
+            SearchAlgorithm = new DepthFirstSearch();
 
+        SearchableMaze domain;
         try {
             ObjectInputStream fromClient = new ObjectInputStream(inFromClient);
             ObjectOutputStream toClient = new ObjectOutputStream(outToClient);
@@ -46,7 +52,7 @@ public class ServerStrategySolveSearchProblem implements IServerStrategy {
                     }
                 }
                 if(!found_match){
-                    solution = dfs.solve(domain);
+                    solution = SearchAlgorithm.solve(domain);
                     //add new file with the hashcode name and the content of the solution
                     FileOutputStream f = new FileOutputStream(new File(tempDirectoryPath + "\\" + this_hashCode));
                     ObjectOutputStream o = new ObjectOutputStream(f);

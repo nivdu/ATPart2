@@ -1,10 +1,13 @@
 package Server;
 
 
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
+import java.util.Properties;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 
@@ -18,10 +21,11 @@ public class Server {
     private ThreadPoolExecutor threadPoolExecutor;
 
     public Server(int port, int listeningInterval, IServerStrategy serverStrategy) {
-        threadPoolExecutor = (ThreadPoolExecutor) Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors() * 2);
+        Configurations.SetConfigurations();
         this.port = port;
         this.listeningInterval = listeningInterval;
         this.serverStrategy = serverStrategy;
+        threadPoolExecutor = (ThreadPoolExecutor) Executors.newFixedThreadPool(Configurations.getNumOfThreads());
     }
 
     public void start() {
@@ -39,7 +43,7 @@ public class Server {
                     System.out.println(String.format("Client excepted: %s", clientSocket.toString()));
                     threadPoolExecutor.execute(() -> handleClient(clientSocket));
                 } catch (SocketTimeoutException e) {
-                    System.out.println("SocketTimeout - No clients pending!");
+//                    System.out.println("SocketTimeout - No clients pending!");
                 }
             }
             threadPoolExecutor.shutdown();
@@ -66,8 +70,45 @@ public class Server {
     }
 
     public void stop() {
-        System.out.println("Stopping server..");
         stop = true;
+    }
+
+    static class Configurations{
+        private static Properties prop;
+
+        private static void SetConfigurations(){
+            InputStream input=null;
+            prop = new Properties();
+            try {
+                input = new FileInputStream("Resources/config.properties");
+                // load a properties file
+                prop.load(input);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            } finally {
+                if (input != null) {
+                    try {
+                        input.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+        static String getMazeGenerationMethod(){ return prop.getProperty("GenerateAlgorithm"); }
+        static String getSearchingAlgorithm(){ return prop.getProperty("SearchingAlgorithm"); }
+
+        private static int getNumOfThreads(){
+            try{
+                int to_return = Integer.parseInt(prop.getProperty("NumberOfThreads"));
+                if (to_return >= 1)
+                    return to_return;
+            }
+            catch (NumberFormatException e){
+                System.out.println(e.getMessage());
+            }
+            return Runtime.getRuntime().availableProcessors() * 2;//default value of threads
+        }
     }
 
 

@@ -6,19 +6,33 @@ import java.io.OutputStream;
 import java.util.Properties;
 
 public class Configurations {
+    public static void main(String[] args) {
 
-    private static Properties prop;
-    private static OutputStream output;
+        Properties prop = new Properties();
+        OutputStream output = null;
 
-    public Configurations() {
         try {
-            prop = new Properties();
-            output = new FileOutputStream("config.properties");
+
+            output = new FileOutputStream("Resources/config.properties");
+
+            // set the properties value
+            prop.setProperty("SearchingAlgorithm", "DepthFirstSearch");
+            prop.setProperty("NumberOfThreads", "" + Runtime.getRuntime().availableProcessors() * 2);
+            prop.setProperty("GenerateAlgorithm", "MyMazeGenerator");
+
+            // save properties to project root folder
             prop.store(output, null);
 
         } catch (IOException io) {
             io.printStackTrace();
+        } finally {
+            if (output != null) {
+                try {
+                    output.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
-
 }

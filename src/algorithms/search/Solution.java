@@ -54,5 +54,4 @@ public class Solution implements Serializable {
         SolutionPath.add(0,temp);
         SolutionPath.add(0,start);
     }
-
 }
