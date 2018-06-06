@@ -7,11 +7,20 @@ import java.util.ArrayList;
 public class MyDecompressorInputStream extends InputStream {
     private InputStream in;
 
+    /**
+     * constructor of the decompression
+     * @param in - input Stream that will included the compressed byte array
+     */
     public MyDecompressorInputStream(InputStream in)
     {
         this.in = in;
     }
 
+    /**
+     * decompress the compress array to the given array
+     * @param b - array that will include the decompress array
+     * @return - the length of the decompress array
+     */
     @Override
     public int read(byte[] b) {
         try {
@@ -35,11 +44,22 @@ public class MyDecompressorInputStream extends InputStream {
         return b.length;
     }
 
+    /**
+     * private function which responsible for the decompression
+     * @param b - the decompression array
+     * @param compress_array - the compress array
+     */
     private void decompress_the_array(byte[] b, byte[] compress_array){
         int beginning_of_data_compress=first_part_of_compression(b, compress_array);
         decompress_the_second_part(b, compress_array,beginning_of_data_compress);
     }
 
+    /**
+     * private function which responsible for the first part of the decompression
+     * @param b - the decompress array
+     * @param compressArray - the compress array
+     * @return - the start's index of the maze's content
+     */
     private int first_part_of_compression( byte[] b, byte[] compressArray){
         int last_comma = 0;
         int location_in_compressArray = 0;
@@ -65,6 +85,12 @@ public class MyDecompressorInputStream extends InputStream {
         return i;
     }
 
+    /**
+     * private function which responsible for the second part of the decompression
+     * @param b - the decompress array
+     * @param compressArray - the compress array
+     * @param start - the start's index of the maze's content
+     */
     private void decompress_the_second_part(byte[] b, byte[] compressArray, int start){
         int counter;
         byte current_byte = 1;

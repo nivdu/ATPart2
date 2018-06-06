@@ -70,7 +70,7 @@ public class MyCompressorOutputStream extends OutputStream {
      * the part of maze's content
      * @param compressArray - the compression will enter to this ArrayList
      * @param b - the array that will be compress
-     * @param start
+     * @param start - the index of the maze's content's start
      */
     private void second_part_of_compression(ArrayList<Byte> compressArray, byte[] b, int start){
         int counter = 0;
@@ -112,6 +112,11 @@ public class MyCompressorOutputStream extends OutputStream {
         return 0;
     }
 
+    /**
+     * convert ArrayList of Byte to array of Byte
+     * @param to_array_of_Bytes - the arrayList which will be converted
+     * @return - the converted array
+     */
     private byte[] arrayList_2array(ArrayList<Byte> to_array_of_Bytes){
         byte[] to_return = new byte[to_array_of_Bytes.size()];
         int index=0;
