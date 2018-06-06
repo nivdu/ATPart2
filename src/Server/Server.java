@@ -11,7 +11,11 @@ import java.util.Properties;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 
-
+/**
+ * this class represent a generic server.
+ * use thread pool executor.
+ * and treat clients.
+ */
 
 public class Server {
     private int port;
@@ -59,23 +63,27 @@ public class Server {
             System.out.println("Client excepted!");
             System.out.println(String.format("Handling client with socket: %s", clientSocket.toString()));
             serverStrategy.serverStrategy(clientSocket.getInputStream(), clientSocket.getOutputStream());
-//            clientSocket.getInputStream().close();
-//            clientSocket.getOutputStream().close();
             clientSocket.close();
-        } catch (IOException e) {//todo exception
-
+        } catch (IOException | NullPointerException e) {//todo exception
             //e.printStackTrace();
-//            LOG.error("IOException", e);
         }
     }
 
+    /**
+     * set the boolean var stop to true
+     * use this method to stop the server.
+     */
     public void stop() {
         stop = true;
     }
 
+
     static class Configurations{
         private static Properties prop;
 
+        /**
+         * set configuration and load it to prop(inputstream Var).
+         */
         private static void SetConfigurations(){
             InputStream input=null;
             prop = new Properties();
@@ -95,9 +103,24 @@ public class Server {
                 }
             }
         }
+
+        /**
+         * gettter from prop configuration
+         * @return the class to generate the maze with
+         */
         static String getMazeGenerationMethod(){ return prop.getProperty("GenerateAlgorithm"); }
+
+        /**
+         * gettter from prop configuration
+         * @return the class to search on the maze with. to find solution.
+         */
         static String getSearchingAlgorithm(){ return prop.getProperty("SearchingAlgorithm"); }
 
+
+        /**
+         * gettter from prop configuration
+         * @return the number of threads to work with
+         */
         private static int getNumOfThreads(){
             try{
                 int to_return = Integer.parseInt(prop.getProperty("NumberOfThreads"));
