@@ -14,10 +14,9 @@ public class MyDecompressorInputStream extends InputStream {
 
     @Override
     public int read(byte[] b) {
-        //return super.read(b);
         try {
 
-//getting the datat from the file:
+            //getting the datat from the file:
             ArrayList<Byte> data = new ArrayList<>();
             while (in.available() > 0)
                 data.add((byte) in.read());
@@ -28,7 +27,6 @@ public class MyDecompressorInputStream extends InputStream {
                 com[i] = data.get(i);
             }
 
-//            byte[] compress_array = in.readAllBytes();
             decompress_the_array(b,com);
         }
         catch(IOException e){
