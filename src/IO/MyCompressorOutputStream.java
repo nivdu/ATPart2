@@ -7,6 +7,10 @@ import java.util.ArrayList;
 public class MyCompressorOutputStream extends OutputStream {
     private OutputStream out;
 
+    /**
+     * constructor of compression
+     * @param out - the output stream that the compressed array will be written to it
+     */
     public MyCompressorOutputStream(OutputStream out) {
         this.out=out;
     }
@@ -30,7 +34,13 @@ public class MyCompressorOutputStream extends OutputStream {
         }
     }
 
-
+    /**
+     * a private function that responsible for the first part of the compression,
+     * the part of the maze's size, the start point and the end point.
+     * @param compressArray - the compression will enter to this ArrayList
+     * @param b - the array that will be compress
+     * @return - the index of the maze content's start
+     */
     private int first_part_of_compression(ArrayList<Byte> compressArray, byte[] b){
         int last_comma = 0;
         int location_in_b = 0;
@@ -55,7 +65,13 @@ public class MyCompressorOutputStream extends OutputStream {
         return i;
     }
 
-
+    /**
+     * a private function that responsible for the second part of the compression,
+     * the part of maze's content
+     * @param compressArray - the compression will enter to this ArrayList
+     * @param b - the array that will be compress
+     * @param start
+     */
     private void second_part_of_compression(ArrayList<Byte> compressArray, byte[] b, int start){
         int counter = 0;
         int current_byte = 1;
