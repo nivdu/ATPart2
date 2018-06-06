@@ -1,9 +1,6 @@
 package test;
 import algorithms.mazeGenerators.*;
 
-import java.io.IOException;
-import java.nio.file.*;
-
 public class RunMazeGenerator {
     public static void main(String[] args) {
         testMazeGenerator(new SimpleMazeGenerator());
