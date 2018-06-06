@@ -18,8 +18,7 @@ public class Server {
     private ThreadPoolExecutor threadPoolExecutor;
 
     public Server(int port, int listeningInterval, IServerStrategy serverStrategy) {
-        threadPoolExecutor = (ThreadPoolExecutor) Executors.newCachedThreadPool();
-        threadPoolExecutor.setCorePoolSize(Runtime.getRuntime().availableProcessors() * 2);
+        threadPoolExecutor = (ThreadPoolExecutor) Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors() * 2);
         this.port = port;
         this.listeningInterval = listeningInterval;
         this.serverStrategy = serverStrategy;
@@ -43,6 +42,7 @@ public class Server {
                     System.out.println("SocketTimeout - No clients pending!");
                 }
             }
+            threadPoolExecutor.shutdown();
             server.close();
         } catch (IOException e) {//todo exception
             //e.printStackTrace();
@@ -59,6 +59,7 @@ public class Server {
 //            clientSocket.getOutputStream().close();
             clientSocket.close();
         } catch (IOException e) {//todo exception
+
             //e.printStackTrace();
 //            LOG.error("IOException", e);
         }
