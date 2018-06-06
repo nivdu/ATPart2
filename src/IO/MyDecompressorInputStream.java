@@ -2,6 +2,7 @@ package IO;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 
 public class MyDecompressorInputStream extends InputStream {
     private InputStream in;
@@ -15,8 +16,20 @@ public class MyDecompressorInputStream extends InputStream {
     public int read(byte[] b) {
         //return super.read(b);
         try {
-            byte[] compress_array = in.readAllBytes();
-            decompress_the_array(b,compress_array);
+
+//getting the datat from the file:
+            ArrayList<Byte> data = new ArrayList<>();
+            while (in.available() > 0)
+                data.add((byte) in.read());
+
+            //copying the data from the ArrayList to the byte array:
+            byte[] com = new byte[data.size()];
+            for(int i = 0; i < data.size(); i++){
+                com[i] = data.get(i);
+            }
+
+//            byte[] compress_array = in.readAllBytes();
+            decompress_the_array(b,com);
         }
         catch(IOException e){
             e.printStackTrace();

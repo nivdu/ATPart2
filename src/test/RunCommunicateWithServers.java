@@ -6,7 +6,6 @@ import algorithms.mazeGenerators.Maze;
 import algorithms.mazeGenerators.MyMazeGenerator;
 import algorithms.search.AState;
 import algorithms.search.Solution;
-import sun.awt.Mutex;
 import java.io.*;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
